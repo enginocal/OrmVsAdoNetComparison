@@ -1,4 +1,6 @@
-﻿using OrmVsAdoNetComparison.Data;
+﻿using BenchmarkDotNet.Running;
+using OrmVsAdoNetComparison.Comparison;
+using OrmVsAdoNetComparison.Data;
 using OrmVsAdoNetComparison.Data.Entity;
 using System;
 using System.Data.Entity.Migrations;
@@ -8,13 +10,39 @@ namespace OrmVsAdoNetComparison
 {
     class Program
     {
-        static void Main(string[] args)
+        static  void Main(string[] args)
         {
-            using (var context = new ComparisonContext())
+            try
             {
-                //SeedUsers(context);
-                SeedImages(context);
+                //EfMethodComparison compare = new EfMethodComparison();
+                //compare.GetUserFirstOrDefault();
+                //compare.GetUserFirstOrDefaultAsNoTracking();
+                ////await compare.GetUserFirstOrDefaultAsync();
+                ////await compare.GetUserFirstOrDefaultTaskRun();
+                //compare.GetUserWhereFirst();
+                //compare.GetUserWhereFirstAsNoTracking();
+                //compare.GetUserWhereTake();
+                //compare.GetUserWhereTakeAsNoTracking();
+                var summary = BenchmarkRunner.Run(typeof(EfBenchmark));
+                //Console.WriteLine();
+                //Console.WriteLine(summary);
+
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                //throw;
+            }
+
+            Console.ReadLine();
+
+
+
+            //using (var context = new ComparisonContext())
+            //{
+            //    //SeedUsers(context);
+            //    SeedImages(context);
+            //}
         }
 
         private static void SeedUsers(ComparisonContext context)
@@ -55,7 +83,7 @@ namespace OrmVsAdoNetComparison
                     context.Images.Add(image);
                 }
 
-                if(i % 1000 == 0)
+                if (i % 1000 == 0)
                 {
                     context.SaveChanges();
                 }
