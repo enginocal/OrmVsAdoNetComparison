@@ -12,33 +12,39 @@ namespace OrmVsAdoNetComparison
         {
             using (var context = new ComparisonContext())
             {
-                SeedUsers(context);
+                //SeedUsers(context);
                 SeedImages(context);
             }
         }
 
         private static void SeedUsers(ComparisonContext context)
         {
-            for (int i = 1; i < 100000; i++)
+            for (int i = 90000; i < 100001; i++)
             {
-                context.Users.AddOrUpdate(user => user.Id, new Data.Entity.User()
+                context.Users.Add(new Data.Entity.User()
                 {
                     Id = i,
                     Name = i.ToString() + " . user name",
                     LastName = i.ToString() + " . user lastname"
                 });
-                context.SaveChanges();
+
+                if (i % 10000 == 0)
+                {
+                    context.SaveChanges();
+                }
+                //context.SaveChanges();
+
             }
         }
 
         private static void SeedImages(ComparisonContext context)
         {
-            for (int i = 1; i < 100000; i++)
+            for (int i = 10000; i < 100001; i++)
             {
-                var randomImageCount = new Random().Next(1, 100);
+                var randomImageCount = new Random().Next(1, 20);
                 var user = context.Users.FirstOrDefault(x => x.Id == i);
 
-                for (int j = 1; j < randomImageCount; i++)
+                for (int j = 1; j < randomImageCount; j++)
                 {
                     Image image = new Image
                     {
@@ -49,7 +55,12 @@ namespace OrmVsAdoNetComparison
                     context.Images.Add(image);
                 }
 
-                context.SaveChanges();
+                if(i % 1000 == 0)
+                {
+                    context.SaveChanges();
+                }
+
+                //context.SaveChanges();
             }
         }
     }

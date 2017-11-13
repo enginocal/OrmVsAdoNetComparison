@@ -10,6 +10,7 @@ namespace OrmVsAdoNetComparison.Data
         public ComparisonContext() : base("ComparisonContext")
         {
             Configuration.LazyLoadingEnabled = true;
+            Configuration.AutoDetectChangesEnabled = false;
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ComparisonContext, Configuration>());
         }
 

@@ -24,8 +24,8 @@ namespace OrmVsAdoNetComparison.Data
 
         protected override void Seed(ComparisonContext context)
         {
-            SeedUsers(context);
-            SeedImages(context);
+            //SeedUsers(context);
+            //SeedImages(context);
             base.Seed(context);
         }
 
