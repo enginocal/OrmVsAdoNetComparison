@@ -4,10 +4,10 @@ using OrmVsAdoNetComparison.Data.Entity;
 
 namespace OrmVsAdoNetComparison.Data
 {
-    //[DbConfigurationType(typeof(MySqlEFConfiguration))]
+    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class ComparisonContext : DbContext
     {
-        public ComparisonContext() : base()
+        public ComparisonContext() : base("ComparisonContext")
         {
             Configuration.LazyLoadingEnabled = true;
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ComparisonContext, Configuration>());
@@ -15,5 +15,14 @@ namespace OrmVsAdoNetComparison.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Image> Images { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>();
+            modelBuilder.Entity<Image>();
+
+        }
     }
 }
